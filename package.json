@@ -1,7 +1,6 @@
 {
   "name": "static-site",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +8,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^6.3.1"
-  }
+    "inquirer": "^6.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JColeCodes/README-generator-challenge-09.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JColeCodes/README-generator-challenge-09/issues"
+  },
+  "homepage": "https://github.com/JColeCodes/README-generator-challenge-09#readme",
+  "description": ""
 }
