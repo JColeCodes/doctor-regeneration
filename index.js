@@ -36,8 +36,8 @@ const projectQuestions = () => {
             type: "list",
             name: "license",
             message: "Which license does this project use?",
-            choices: ["ISC", "MIT", "GNU", "BSD", "Apache", "Mozilla", "Eclipse", "Creative Commons"],
-            default: "ISC",
+            choices: ["ISC", "MIT", "GNU", "BSD", "Apache", "Mozilla", "Eclipse", "Creative Commons","No License"],
+            default: "No License",
             loop: false
         }
     ]);
@@ -49,7 +49,8 @@ const installQuestions = installData => {
         console.log(
 `INSTALLATION INSTRUCTIONS
 + For a more descriptive README, please enter each step one at a time!
-+ To display code, wrap your code with << and >>`
++ To display code, wrap your code with << and >>
++ You do NOT have to provide`
         );
     }
     return inquirer.prompt([
@@ -92,8 +93,8 @@ const usageQuestions = installData => {
             type: "list",
             name: "useType",
             message: "How can one access your application?",
-            choices: ["Webpage", "Command"],
-            default: "Webpage",
+            choices: ["Command", "Webpage"],
+            default: "Command",
             loop: false
         }
     ])
@@ -262,10 +263,11 @@ Welcome to the README Generator!
 A few questions about your project will be asked, then a README.md file will be generated into the /dist folder.
 ++++++++++++++++++++++++++++++++`
     );
-    projectQuestions()
-        .then(installQuestions)
-        .then(usageQuestions)
-        .then(installData => {console.log(installData)});
+    // projectQuestions()
+    //     .then(installQuestions)
+    //     .then(usageQuestions)
+    //     .then(installData => {console.log(installData)});
+    console.log(generateMarkdown(mockData));
 }
 
 // Function call to initialize app
