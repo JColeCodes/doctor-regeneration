@@ -36,9 +36,27 @@ const projectQuestions = () => {
             type: "list",
             name: "license",
             message: "Which license does this project use?",
-            choices: ["ISC", "MIT", "GNU", "BSD", "Apache", "Mozilla", "Eclipse", "Creative Commons","No License"],
+            choices: ["ISC", "MIT", "Apache 2.0", "GNU GPLv2", "GNU GPLv3", "Boost Software 1.0", "Mozilla Public 2.0", "Unilicense", "No License"],
             default: "No License",
             loop: false
+        },
+        {
+            type: "input",
+            name: "command",
+            message: "What is the command to run your project? (Required)",
+            validate: commandInput => {
+                if (commandInput) {
+                    return true;
+                } else {
+                    console.log("Please enter the text command that allows the project to run.");
+                    return false;
+                }
+            }
+        },
+        {
+            type: "input",
+            name: "packages",
+            message: "Does your project require any packages from npm? If so, type them here separated by commas."
         }
     ]);
 };
@@ -49,8 +67,8 @@ const installQuestions = installData => {
         console.log(
 `INSTALLATION INSTRUCTIONS
 + For a more descriptive README, please enter each step one at a time!
-+ To display code, wrap your code with << and >>
-+ You do NOT have to provide`
++ To insert links or code, please use markup language.
++ You do NOT have to provide a step for installing npm packages`
         );
     }
     return inquirer.prompt([
@@ -87,76 +105,14 @@ const installQuestions = installData => {
 
 // Add Contribution and Tests
 const usageQuestions = installData => {
-    var usage = { type: "", text: "", packages: "" };
     return inquirer.prompt([
         {
-            type: "list",
-            name: "useType",
-            message: "How can one access your application?",
-            choices: ["Command", "Webpage"],
-            default: "Command",
-            loop: false
+            type: "confirm",
+            name: "confirmNPMTest",
+            message: "Does your project have a test package from NPM, such as Jest or Mocha?",
+            default: true
         }
     ])
-    .then(usageChoice => {
-        usage.type = usageChoice.useType;
-        if (usageChoice.useType === "Webpage") {
-            return inquirer.prompt([
-                {
-                    type: "input",
-                    name: "useText",
-                    message: "What is the full URL to your deployed application? (Required)",
-                    validate: webpageInput => {
-                        if ((webpageInput.includes("http://") || webpageInput.includes("https://")) && webpageInput.includes(".")) {
-                            return true;
-                        } else {
-                            console.log("Please enter a full URL with the http or https.");
-                            return false;
-                        }
-                    }
-                }
-            ]);
-        } else if (usageChoice.useType === "Command") {
-            return inquirer.prompt([
-                {
-                    type: "input",
-                    name: "useText",
-                    message: "What is the command to run? (Required)",
-                    validate: commandInput => {
-                        if (commandInput) {
-                            return true;
-                        } else {
-                            console.log("Please enter your GitHub username.");
-                            return false;
-                        }
-                    }
-                },
-                {
-                    type: "input",
-                    name: "packages",
-                    message: "Does your project require any packages from npm? If so, type them here separated by commas."
-                }
-            ]);
-        }
-    })
-    .then(usageText => {
-        usage.text = usageText.useText;
-        if (usageText.packages) {
-            usage.packages = usageText.packages;
-        }
-        installData.usage = usage;
-        return installData;
-    })
-    .then (installData => {
-        return inquirer.prompt([
-            {
-                type: "confirm",
-                name: "confirmNPMTest",
-                message: "Does your project have a test package from NPM, such as Jest or Mocha?",
-                default: true
-            }
-        ])
-    })
     .then(usageChoice => {
         if (!usageChoice.confirmNPMTest) {
             return inquirer.prompt([
@@ -244,8 +200,9 @@ mockData = {
     project: "Project Name Here",
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     license: "ISC",
-    instructions: ["Rule number one is that you gotta have fun", "But, baby, when you're done, you gotta be the first to run", "Rule number two, just don't get attached to", "Somebody you could lose <<So le-let me tell you>>"],
-    usage: {type: "Command", text: "node index.js", packages: "inquirer, sampletext"},
+    command: "node index.js",
+    packages: "inquirer, sampletext",
+    instructions: ["Rule number one is that you gotta have fun", "But, baby, when you're done, you gotta be the first to run", "Rule number two, just don't get attached to", "Somebody you could lose `So le-let me tell you`"],
     tests: "npmtest",
     ghUser: "JColeCodes",
     ghRepo: "README-generator-challenge-09",

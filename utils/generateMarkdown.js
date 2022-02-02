@@ -1,28 +1,100 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-function renderLicenseBadge(license) {}
+// Create a function that returns a license badge based on which license is passed in
+function renderLicenseBadge(license) {
+  if (license === 'No License') {
+    return ``;
+  }
+  var licenseName = license.replace(/ /g, '%20');
+  var licenseBadge = `![${license}](https://img.shields.io/badge/license-${licenseName}-green?style=for-the-badge&logo=appveyor)
+  
+`;
+  return licenseBadge;
+}
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
-function renderLicenseLink(license) {}
+// Create a function that returns the license link
+function renderLicenseLink(license) {
+  if (license === 'No License') {
+    return ``;
+  }
+  return `
+* [License](#license)`;
+}
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {}
+// Create a function that returns the license section of README
+function renderLicenseSection(license) {
+  if (license === 'No License') {
+    return ``;
+  }
+  var licenseInfo = `## License
+`;
+  if (license === 'ISC') {
+    licenseInfo += `Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+[Read more about the ISC license.](https://choosealicense.com/licenses/isc/)`;
+  } else if (license === 'MIT') {
+    licenseInfo += `Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+    
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+[Read more about the MIT license.](https://choosealicense.com/licenses/mit/)`;
+  } else if (license === 'Apache 2.0') {
+    licenseInfo += `Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at [http://www.apache.org/licenses/LICENSE-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+    
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+[Read more about the Apache 2.0 license.](https://choosealicense.com/licenses/apache-2.0/)`;
+  } else if (license === 'GNU GPLv2') {
+    licenseInfo += `This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+[Read more about the GNU GPLv2 license.](https://choosealicense.com/licenses/gpl-2.0/)`;
+  } else if (license === 'GNU GPLv3') {
+    licenseInfo += `This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+[Read more about the GNU GPLv3 license.](https://choosealicense.com/licenses/gpl-3.0/)`;
+  } else if (license === 'Boost Software 1.0') {
+    licenseInfo += `Permission is hereby granted, free of charge, to any person or organization obtaining a copy of the software and accompanying documentation covered by this license (the "Software") to use, reproduce, display, distribute, execute, and transmit the Software, and to prepare derivative works of the Software, and to permit third-parties to whom the Software is furnished to do so, all subject to the following:
+    
+The copyright notices in the Software and this entire statement, including the above license grant, this restriction and the following disclaimer, must be included in all copies of the Software, in whole or in part, and all derivative works of the Software, unless such copies or derivative works are solely in the form of machine-executable object code generated by a source language processor.
+
+[Read more about the Boost Software License.](https://choosealicense.com/licenses/bsl-1.0/)`;
+  } else if (license === 'Mozilla Public 2.0') {
+    licenseInfo += `This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at [http://mozilla.org/MPL/2.0/](http://mozilla.org/MPL/2.0/).
+  
+If it is not possible or desirable to put the notice in a particular file, then You may include the notice in a location (such as a LICENSE file in a relevant directory) where a recipient would be likely to look for such a notice.
+
+[Read more about the Mozilla Public License.](https://choosealicense.com/licenses/mpl-2.0/)`;
+  } else if (license === 'Unilicense') {
+    licenseInfo += `This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
+    
+In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.
+
+[Read more about the Unilicense.](https://choosealicense.com/licenses/unlicense/)`;
+  }
+  licenseInfo += `
+
+`;
+  return licenseInfo;
+}
 
 // List each instruction
 function listInstructions(instructions) {
   var instructionText = ``;
   for (let i = 0; i < instructions.length; i++) {
     instructionText += `
-${i + 1} ${instructions[i]}`;
+${i + 1}. ${instructions[i]}`;
   }
   return instructionText;
 }
-function checkPackages(usage) {
+
+// Check npm packages
+function checkPackages(packages) {
   var requiredPackages = ``;
-  if (usage.packages) {
-    const { packages } = usage;
+  if (packages) {
     var packageArray = [packages];
     if (packages.includes(",")) {
       packageArray = packages.split(",");
@@ -30,56 +102,71 @@ function checkPackages(usage) {
     requiredPackages = `This program requires the following packages from npm: `;
     for (let i = 0; i < packageArray.length; i++) {
       requiredPackages += `
-* [${packageArray[i].trim()}](https://www.npmjs.com/package/${packageArray[i].toLowerCase().trim()})
-`;
+* [${packageArray[i].trim()}](https://www.npmjs.com/package/${packageArray[i].toLowerCase().trim()})`;
     }
     requiredPackages += `
-In order to install all of them, enter the following command into the command line:
+
+In order to install all of them, enter the following into the command line:
 \`\`\`
-npm i
+npm install
 \`\`\``;
   }
   return requiredPackages;
 }
 
-// Create Usage text
-function createUsageText(usage) {
-  var usageText = ``;
-  if (usage.type === "Webpage") {
-
-  } else if (usage.type === "Command") {
-    usageText = `In order to run this application, you will need...${usage.packages}
-\`${usage.text}\``;
+// Test text
+function testText(test) {
+  if (test === 'npmtest') {
+    var npmTestText = `This application currently has tests set up via an NPM package for testing. To run it, enter into the command line:
+\`\`\`
+npm test
+\`\`\``;
+    return npmTestText;
   }
-  return usageText;
+  return test;
 }
 
-// TODO: Create a function to generate markdown for README
+// Create a function to generate markdown for README
 const generateMarkdown = data => {
-  return `# ${data.project}
-## Description
-${data.description}
+  const { project, description, license, command, packages, instructions, tests, ghUser, ghRepo, email } = data;
+  return `# ${project}
+
+${renderLicenseBadge(license)}## Description
+${description}
 
 ## Table of Contents
 * [Installation](#installation)
-* [Usage](#usage)
+* [Usage](#usage)${renderLicenseLink(license)}
 * [Contributing](#contributing)
 * [Tests](#tests)
 * [Questions](#questions)
 
 ## Installation
-To install this project, please follow these steps: ${listInstructions(data.instructions)}
+To install this project, please follow these steps: ${listInstructions(instructions)}
 
-${checkPackages(data.usage)}
+${checkPackages(packages)}
 
 ## Usage
-${createUsageText(data.usage)}
+To run this project, enter the following into the command line:
+\`\`\`
+${command}
+\`\`\`
 
-## Contributing
+${renderLicenseSection(license)}## Contributing
+If you would like to contribute to this project, you can do so by:
+1. Forking the project. ([Learn how to fork.](https://docs.github.com/en/get-started/quickstart/fork-a-repo))
+2. Creating a new feature branch, committing the changes, and pushing the branch.
+3. Opening a [Pull Request](https://github.com/${ghUser}/${ghRepo}/pulls).
+
+You can also check the list of [Issues](https://github.com/${ghUser}/${ghRepo}/issues).
+
+Read the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 
 ## Tests
+${testText(tests)}
 
-## Questions`;
+## Questions
+${project} was created by [${ghUser}](https://github.com/${ghUser}). For inquiries regarding the project, please email the creator at [${email}](mailto:${email}).`;
 }
 
 module.exports = generateMarkdown;
