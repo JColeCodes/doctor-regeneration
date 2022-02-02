@@ -1,9 +1,9 @@
-// TODO: Include packages needed for this application
+// Include packages needed for this application
+const fs = require("fs");
 const inquirer = require("inquirer");
 const generateMarkdown = require("./utils/generateMarkdown");
 
-// TODO: Create an array of questions for user input
-// const questions = [];
+// Create an array of questions for user input
 const projectQuestions = () => {
     return inquirer.prompt([
         {
@@ -195,24 +195,26 @@ const usageQuestions = installData => {
     });
 };
 
-// MOCK DATA!
-mockData = {
-    project: "Project Name Here",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    license: "ISC",
-    command: "node index.js",
-    packages: "inquirer, sampletext",
-    instructions: ["Rule number one is that you gotta have fun", "But, baby, when you're done, you gotta be the first to run", "Rule number two, just don't get attached to", "Somebody you could lose `So le-let me tell you`"],
-    tests: "npmtest",
-    ghUser: "JColeCodes",
-    ghRepo: "README-generator-challenge-09",
-    email: "capauldi@gmail.com"
+// Create a function to write README file
+const writeToFile = content => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile("./dist/README.md", content, err => {
+            // Reject Promise if error
+            if (err) {
+                reject(err);
+                return;
+            };
+            // If no error, resolve Promise
+            resolve({
+                ok: true,
+                message: "File created!"
+            });
+            console.log("README.md created!");
+        });
+    });
 };
 
-// TODO: Create a function to write README file
-const writeToFile = (fileName, data) => {}
-
-// TODO: Create a function to initialize app
+// Create a function to initialize app
 const init = () => {
     console.log(
 `++++++++++++++++++++++++++++++++
@@ -220,11 +222,11 @@ Welcome to the README Generator!
 A few questions about your project will be asked, then a README.md file will be generated into the /dist folder.
 ++++++++++++++++++++++++++++++++`
     );
-    // projectQuestions()
-    //     .then(installQuestions)
-    //     .then(usageQuestions)
-    //     .then(installData => {console.log(installData)});
-    console.log(generateMarkdown(mockData));
+    projectQuestions()
+        .then(installQuestions)
+        .then(usageQuestions)
+        .then(data => { return generateMarkdown(data); })
+        .then(markdown => { writeToFile(markdown) });
 }
 
 // Function call to initialize app
