@@ -3,11 +3,11 @@
 ## Description
 This README generator works through the command line by asking a series of questions. After the questions are answered, the generator takes the answers and applies it to a README.md file written in markup and output into the /dist folder.
 
-<iframe src="https://drive.google.com/file/d/1OZJBCoJ4zxGpRGGwOCQhDA6xF90gAzRO/preview" width="640" height="480" allow="autoplay"></iframe>
+[![Click link to view video](./video/screenshot.png)](https://drive.google.com/file/d/1OZJBCoJ4zxGpRGGwOCQhDA6xF90gAzRO/view?usp=sharing)
 
-View a sample README.md: 
+View video of the working application: [Download Local File](https://github.com/JColeCodes/README-generator-challenge-09/raw/main/video/README%20Generator%20(Challenge%2009).mp4) | [Google Drive](https://drive.google.com/file/d/1OZJBCoJ4zxGpRGGwOCQhDA6xF90gAzRO/view)
 
-View the local video of the working application: 
+[View a sample README.md](https://github.com/JColeCodes/README-generator-challenge-09/blob/main/dist/README.md)
 
 ## Table of Contents
 * [Installation](#installation)
